@@ -29,5 +29,18 @@ accommodationRouter.get("/", jwtAuthMiddleware, hostOnlyMiddleware, async (req, 
     next(error)
   }
 })
+accommodationRouter.get("/:accommId", jwtAuthMiddleware, hostOnlyMiddleware, async (req, res, next) => {
+  try {
+    const accomId = req.params.accommId
+    const specificAccom = await AccommodationsModel.findById(accomId)
+    if (specificAccom) {
+      res.status(200).send(specificAccom)
+    } else {
+      res.status(404).send({ message: "accommodation does not exist" })
+    }
+  } catch (error) {
+    next(error)
+  }
+})
 
 export default accommodationRouter

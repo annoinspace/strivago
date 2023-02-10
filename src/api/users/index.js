@@ -71,9 +71,14 @@ usersRouter.get("/me", jwtAuthMiddleware, async (req, res, next) => {
 
 usersRouter.get("/me/accommodations", jwtAuthMiddleware, hostOnlyMiddleware, async (req, res, next) => {
   try {
-    const hostId = req.user._id
-    const accommodations = await AccommodationsModel.find({ host: hostId })
-    res.send(accommodations)
+    console.log("req.user", req.user)
+    if (req.user.role === "Host") {
+      const hostId = req.user._id
+      const accommodations = await AccommodationsModel.find({ host: hostId })
+      res.send(accommodations)
+    } else {
+      res.status(403).send({ message: "only hosts can access this information" })
+    }
   } catch (error) {
     next(error)
   }
