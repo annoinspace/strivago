@@ -1,5 +1,6 @@
 import express from "express"
 import UsersModel from "./model.js"
+import AccommodationsModel from "../accommodation/model.js"
 import { jwtAuthMiddleware } from "../../lib/jwtAuth.js"
 import { hostOnlyMiddleware } from "../../lib/HostOnly.js"
 import { createAccessToken } from "../../lib/tools.js"
@@ -70,9 +71,9 @@ usersRouter.get("/me", jwtAuthMiddleware, async (req, res, next) => {
 
 usersRouter.get("/me/accommodations", jwtAuthMiddleware, hostOnlyMiddleware, async (req, res, next) => {
   try {
-    const user = req.user
-    const accomodation = await UsersModel.find({ users: user._id })
-    res.send(accomodation)
+    const hostId = req.user._id
+    const accommodations = await AccommodationsModel.find({ host: hostId })
+    res.send(accommodations)
   } catch (error) {
     next(error)
   }
