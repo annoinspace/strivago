@@ -17,7 +17,9 @@ usersRouter.post("/register", async (req, res, next) => {
       const newUser = new UsersModel(req.body)
       const newUserSaved = await newUser.save()
       if (newUserSaved) {
-        res.status(201).send(newUserSaved)
+        const payload = { _id: newUserSaved._id, role: newUserSaved.role }
+        const accessToken = await createAccessToken(payload)
+        res.status(201).send({ accessToken, message: "user created and can now login" })
       } else {
         res.status(400).send({ message: "something went wrong creating new user" })
       }

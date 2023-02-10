@@ -18,9 +18,11 @@ accommodationRouter.post("/", jwtAuthMiddleware, hostOnlyMiddleware, async (req,
   }
 })
 
-accommodationRouter.get("/", async (req, res, next) => {
+accommodationRouter.get("/", jwtAuthMiddleware, hostOnlyMiddleware, async (req, res, next) => {
   try {
-    const accommodations = await AccommodationsModel.find()
+    const id = req.user._id
+
+    const accommodations = await AccommodationsModel.find({ host: id })
     if (accommodations) {
       res.status(200).send(accommodations)
     }
