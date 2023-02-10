@@ -49,7 +49,7 @@ usersRouter.post("/login", async (req, res, next) => {
 
 usersRouter.get("/", jwtAuthMiddleware, async (req, res, next) => {
   try {
-    const users = await UsersModel.find({})
+    const users = await UsersModel.find({}).select({ password: 0, createdAt: 0, updatedAt: 0, __v: 0 })
     res.send(users)
   } catch (error) {
     next(error)
@@ -59,7 +59,7 @@ usersRouter.get("/", jwtAuthMiddleware, async (req, res, next) => {
 usersRouter.get("/me", jwtAuthMiddleware, async (req, res, next) => {
   try {
     if (req.user) {
-      const user = await UsersModel.findById(req.user._id)
+      const user = await UsersModel.findById(req.user._id).select({ password: 0, createdAt: 0, updatedAt: 0, __v: 0 })
       res.send(user)
     } else {
       res.status(400).send({ message: "something went getting your profile" })
