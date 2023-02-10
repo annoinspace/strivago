@@ -66,9 +66,9 @@ usersRouter.get("/me", jwtAuthMiddleware, async (req, res, next) => {
   }
 })
 
-usersRouter.get("/me/accomodation", jwtAuthMiddleware, hostOnlyMiddleware, async (req, res, next) => {
+usersRouter.get("/me/accommodations", jwtAuthMiddleware, hostOnlyMiddleware, async (req, res, next) => {
   try {
-    const user = request.user
+    const user = req.user
     const accomodation = await UsersModel.find({ users: user._id })
     res.send(accomodation)
   } catch (error) {
