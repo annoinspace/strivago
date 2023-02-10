@@ -29,6 +29,7 @@ accommodationRouter.get("/", jwtAuthMiddleware, hostOnlyMiddleware, async (req, 
     next(error)
   }
 })
+
 accommodationRouter.get("/:accommId", jwtAuthMiddleware, hostOnlyMiddleware, async (req, res, next) => {
   try {
     const accomId = req.params.accommId
