@@ -10,6 +10,8 @@ import {
   forbiddenErrorHandler
 } from "./errorHandlers.js"
 import mongoose from "mongoose"
+import usersRouter from "./api/users/index.js"
+import accommodationRouter from "./api/accommodation/index.js"
 
 // import googleStrategy from "./lib/auth/google.js"
 
@@ -38,7 +40,8 @@ server.use(express.json())
 server.use(cors(corsOptions))
 server.use(passport.initialize())
 // ****************** ENDPOINTS ********************
-// server.use("/blogPosts", blogsRouter)
+server.use("/users", usersRouter)
+server.use("/accommodations", accommodationRouter)
 
 // ****************** ERROR HANDLERS ****************
 server.use(badRequestHandler) // 400
